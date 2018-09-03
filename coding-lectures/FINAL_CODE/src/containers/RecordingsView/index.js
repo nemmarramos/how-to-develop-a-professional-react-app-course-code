@@ -49,12 +49,20 @@ function mapStateToProps(state) {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      ui: bindActionCreators(uiActionCreators, dispatch)
+    }
+  }
+}
 
 RecordingsView.propTypes = {
+  actions: PropTypes.shape({}).isRequired,
   audio: PropTypes.shape({
     list: PropTypes.array
   }).isRequired,
   history: PropTypes.shape({}).isRequired
 }
 
-export default connect(mapStateToProps)(RecordingsView)
+export default connect(mapStateToProps, mapDispatchToProps)(RecordingsView)

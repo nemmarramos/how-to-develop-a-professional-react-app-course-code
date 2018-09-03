@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes            from 'prop-types'
 import ErrorIcon            from '@material-ui/icons/ErrorOutline'
+import ProgressIndicator    from 'components/ProgressIndicator'
+import { getAudioElem }     from 'core/libs/lib-audio-helpers'
 import DetailsControls      from '../DetailsControls'
+import DetailsTitle         from '../DetailsTitle'
 import DetailsVisualization from '../DetailsVisualization'
 import { styles }           from './styles.scss'
 
 class DetailsBody extends Component {
   constructor(props) {
     super(props)
+    const { recording } = props
 
     this.state = {
-      audioElem: null
+      audioElem: null,
+      recording,
+      searching: true
     }
   }
 
@@ -18,37 +24,45 @@ class DetailsBody extends Component {
     const { recording } = nextProps
 
     if (recording) {
-      const audioElem = DetailsBody.getAudioElem(recording)
+      const audioElem = getAudioElem(recording)
 
       return {
         audioElem,
-        recording
+        recording,
+        searching: false
       }
     }
 
     return { recording }
   }
 
+  componentDidMount= () => {
+    const self = this
 
-  static getAudioElem(recording) {
-    if (recording) {
-      const audioBlob = new Blob([recording.blob], { type: 'audio/webm' })
-      const audioElem = new Audio()
-
-      audioElem.src = URL.createObjectURL(audioBlob)
-      return audioElem
-    }
-
-    return null
+    setTimeout(() => {
+      self.setState({
+        searching: false
+      })
+    }, 3000)
   }
 
-  displayContent = () => {
-    const { audioElem } = this.state
 
-    if (audioElem) {
+  displayBody = () => {
+    const { audioElem, recording, searching } = this.state
+
+    if (searching) {
+      return (
+        <div>
+          <div className="scrim" />
+          <ProgressIndicator size={60} color="secondary" />
+        </div>
+      )
+    } else if (recording && audioElem) {
       return (
         <div>
           <DetailsControls audioElem={audioElem} />
+          <DetailsTitle recordingId={recording.id} title={recording.title} />
+          <div className="content-area" />
         </div>
       )
     }
@@ -69,13 +83,19 @@ class DetailsBody extends Component {
 
     return (
       <div className={styles}>
-        <DetailsVisualization audioElem={audioElem} />
-        {this.displayContent()}
+        <div className="details-body">
+          <DetailsVisualization audioElem={audioElem} />
+          {this.displayBody()}
+        </div>
       </div>
     )
   }
 }
 
+
+DetailsBody.propTypes = {
+  recording: PropTypes.shape({})
+}
 
 DetailsBody.defaultProps = {
   recording: null

@@ -8,8 +8,12 @@ module.exports = {
   entry: [
     'webpack-hot-middleware/client'
   ],
+  output: {
+    publicPath: ''
+  },
 
   module: {
+    noParse: [new RegExp('node_modules/localforage/dist/localforage.js')],
     rules: [{
       test: /\.scss$/,
       use: [
@@ -36,7 +40,14 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"'
+      },
+      __DEVELOPMENT__: true
+    }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     })

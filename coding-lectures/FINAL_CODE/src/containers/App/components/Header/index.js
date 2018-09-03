@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
-import AppBar               from 'components/AppBar'
-import Toolbar              from '@material-ui/core/Toolbar'
-import Typography           from '@material-ui/core/Typography'
-import IconButton           from '@material-ui/core/IconButton'
-import Menu                 from '@material-ui/core/Menu'
-import MenuItem             from '@material-ui/core/MenuItem'
-import AccountCircle        from '@material-ui/icons/AccountCircle'
-import Navigation           from './components/Navigation'
-import { styles }           from './styles.scss'
+import React, { Component }    from 'react'
+import PropTypes               from 'prop-types'
+import { withRouter }          from 'react-router-dom'
+import AppBar                  from 'components/AppBar'
+import Toolbar                 from '@material-ui/core/Toolbar'
+import Typography              from '@material-ui/core/Typography'
+import IconButton              from '@material-ui/core/IconButton'
+import Menu                    from '@material-ui/core/Menu'
+import MenuItem                from '@material-ui/core/MenuItem'
+import AccountCircle           from '@material-ui/icons/AccountCircle'
+import Navigation              from './components/Navigation'
+import { styles }              from './styles.scss'
 
 class Header extends Component {
   constructor(props) {
@@ -18,16 +20,29 @@ class Header extends Component {
     }
   }
 
-  displayRecordingCount = () => {
-    return '0 recordings'
-  }
+  getMenu() {
+    const { anchorEl } = this.state
 
-  handleClick = (event) => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
-
-  close = () => {
-    this.setState({ anchorEl: null })
+    return (
+      <div>
+        <IconButton
+          aria-haspopup="true"
+          color="inherit"
+          className="dropdown"
+          aria-owns={anchorEl ? 'simple-menu' : null}
+          onClick={this.handleClick}
+        >
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.close}
+        >
+          <MenuItem data-link="account">Sign In</MenuItem>
+        </Menu>
+      </div>
+    )
   }
 
   goTo = (evt) => {
@@ -38,8 +53,22 @@ class Header extends Component {
     this.close()
   }
 
+  handleClick = (event) => {
+    this.setState({ anchorEl: event.currentTarget })
+  }
+
+  displayRecordingCount = () => {
+    const { recordingCount } = this.props
+    return recordingCount > 0 ? `${recordingCount} recordings` : '0 recordings'
+  }
+
+  close = () => {
+    this.setState({ anchorEl: null })
+  }
+
+
   render() {
-    const { anchorEl } = this.state
+    const menu = this.getMenu()
 
     return (
       <div className={styles}>
@@ -48,6 +77,7 @@ class Header extends Component {
             <Typography variant="title" color="inherit">
               { this.displayRecordingCount() }
             </Typography>
+            {menu}
           </Toolbar>
         </AppBar>
         <Navigation />
@@ -56,4 +86,10 @@ class Header extends Component {
   }
 }
 
-export default Header
+
+Header.propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  recordingCount: PropTypes.number.isRequired
+}
+
+export default withRouter(Header)

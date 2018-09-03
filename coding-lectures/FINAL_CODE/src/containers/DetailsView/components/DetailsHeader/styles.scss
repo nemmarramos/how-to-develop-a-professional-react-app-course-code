@@ -6,8 +6,13 @@
     z-index: 1;
   }
 
-  .close-icon {
-    position: relative;
-    left: -20px;
+  .sub-nav {
+    position: absolute;
+    right: $margin;
+  }
+
+  .is-disabled {
+    opacity: 0.2;
+    pointer-events: none;
   }
 }

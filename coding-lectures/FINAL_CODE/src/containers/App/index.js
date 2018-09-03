@@ -6,14 +6,15 @@ import { MuiThemeProvider }   from '@material-ui/core/styles'
 import {
   HashRouter,
   Route,
-  Switch,
-  Redirect
+  Redirect,
+  Switch
 } from 'react-router-dom'
-import FavoritesView            from 'containers/FavoritesView'
-import SharedView               from 'containers/SharedView'
 import RecordView               from 'containers/RecordView'
 import RecordingsView           from 'containers/RecordingsView'
 import DetailsView              from 'containers/DetailsView'
+import FavoritesView            from 'containers/FavoritesView'
+import AccountView              from 'containers/AccountView'
+import SettingsView             from 'containers/SettingsView'
 import * as audioActionCreators from 'core/actions/actions-audio'
 import theme                    from 'configs/config-theme'
 import Header                   from './components/Header'
@@ -25,15 +26,16 @@ import './styles.scss'
 class App extends Component {
   componentDidMount() {
     const { actions } = this.props
-    actions.audio.getAll()
+    actions.audio.getUserRecordings()
   }
 
   render() {
+    const { audio } = this.props
     return (
       <MuiThemeProvider theme={theme}>
         <HashRouter>
           <div>
-            <Header />
+            <Header recordingCount={audio.count} />
             <Footer />
             <div className="app-shell">
               <Switch>
@@ -41,7 +43,8 @@ class App extends Component {
                 <Route path="/recordings/:id" component={DetailsView} />
                 <Route path="/recordings" component={RecordingsView} />
                 <Route path="/favorites" component={FavoritesView} />
-                <Route path="/shared" component={SharedView} />
+                <Route path="/account" component={AccountView} />
+                <Route path="/settings" component={SettingsView} />
                 <Redirect from="/" to="/recordings" />
               </Switch>
             </div>
@@ -49,6 +52,12 @@ class App extends Component {
         </HashRouter>
       </MuiThemeProvider>
     )
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    audio: state.audio
   }
 }
 
@@ -61,7 +70,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 App.propTypes = {
-  actions: PropTypes.shape({}).isRequired
+  actions: PropTypes.shape({}).isRequired,
+  audio: PropTypes.shape({}).isRequired
 }
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

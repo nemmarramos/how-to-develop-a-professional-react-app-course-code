@@ -10,5 +10,5 @@ try {
   console.error(err);
 }
 
-require('babel-register')(config);
+require('babel-core/register')(config);
 require('../server');

@@ -14,6 +14,7 @@ import IconButton               from '@material-ui/core/IconButton'
 import ArrowBackIcon            from '@material-ui/icons/ArrowBack'
 import CloseIcon                from '@material-ui/icons/Close'
 import Typography               from '@material-ui/core/Typography'
+import MicrophoneIcon           from '@material-ui/icons/Mic'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 import moment                   from 'moment'
 import AudioVisualRecorder      from './components/AudioVisualRecorder'
@@ -71,8 +72,7 @@ class RecordView extends Component {
   }
 
   render() {
-    const { audio, ui, width } = this.props
-    const { microphoneAccessGranted } = audio
+    const { ui, width } = this.props
     const closeIcon = isWidthUp('md', width) ? <CloseIcon /> : <ArrowBackIcon />
 
     return (
@@ -98,12 +98,13 @@ class RecordView extends Component {
               <Typography variant="title" color="inherit">
                 {this.displayHeaderMessage()}
               </Typography>
+              <MicrophoneIcon className="microphone-icon" />
             </Toolbar>
           </AppBar>
           <div className="record-view-container">
             <AudioVisualRecorder />
             <div className="bottom-section">
-              <Timer on={microphoneAccessGranted} />
+              <Timer />
               <div className="date">{this.showDateTime()}</div>
             </div>
           </div>

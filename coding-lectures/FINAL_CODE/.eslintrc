@@ -39,6 +39,7 @@
         "afterColon": true
       }
     }],
+    "arrow-body-style": "off",
     "react/jsx-filename-extension": [0, { "extensions": [".js"] }],
     "import/no-extraneous-dependencies": [0, {"devDependencies": true}],
     "import/extensions": ["0", "0", {

@@ -3,11 +3,11 @@ import PropTypes              from 'prop-types'
 import { connect }            from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter }         from 'react-router-dom'
-import { withStyles }         from '@material-ui/core/styles'
-import * as uiActionCreators  from 'core/actions/actions-ui'
-import { getStoredRecording } from 'core/libs/lib-cache'
-import { getCurrentId }       from 'core/libs/lib-url-helpers'
 import Drawer                 from '@material-ui/core/Drawer'
+import { withStyles }         from '@material-ui/core/styles'
+import { getStoredRecording } from 'core/libs/lib-cache'
+import * as uiActionCreators  from 'core/actions/actions-ui'
+import { getCurrentId }       from 'core/libs/lib-url-helpers'
 import DetailsHeader          from './components/DetailsHeader'
 import DetailsBody            from './components/DetailsBody'
 
@@ -32,6 +32,11 @@ class DetailsView extends Component {
     }
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    const { rightDrawerIsOpen } = nextProps.ui
+    return { open: rightDrawerIsOpen }
+  }
+
   componentDidMount() {
     const { actions } = this.props
     const id = getCurrentId(this.props)
@@ -40,15 +45,8 @@ class DetailsView extends Component {
 
     getStoredRecording(id)
       .then((recordingFromStorage) => {
-        this.setState({
-          recording: recordingFromStorage
-        })
+        this.setState({ recording: recordingFromStorage })
       })
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    const { rightDrawerIsOpen } = nextProps.ui
-    return { open: rightDrawerIsOpen }
   }
 
   onClose = () => {
@@ -69,11 +67,11 @@ class DetailsView extends Component {
       <Drawer
         anchor="right"
         classes={{ paper: classes.paper }}
-        open={open}
         onClose={this.onClose}
+        open={open}
       >
         <div>
-          <DetailsHeader />
+          <DetailsHeader recording={recording} />
           <DetailsBody recording={recording} />
         </div>
       </Drawer>
@@ -98,7 +96,8 @@ function mapDispatchToProps(dispatch) {
 DetailsView.propTypes = {
   actions: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired
+  history: PropTypes.shape({}).isRequired,
+  ui: PropTypes.shape({}).isRequired
 }
 
 /* eslint-disable */

@@ -1,8 +1,8 @@
 /* Main app configs go here */
 
 export const appConfig = {
-  name: 'Voice Record Pro',
+  name: 'VoiceRecordPro',
   shortName: 'VoiceRecordPro',
-  description: 'React app prototype for course "How To Develop A Professional React App"',
+  description: 'No Install Audio Recording App',
   splashScreenBackground: '#ffffff'
 }

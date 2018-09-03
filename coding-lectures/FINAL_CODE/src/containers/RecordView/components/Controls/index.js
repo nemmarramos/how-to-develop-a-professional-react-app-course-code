@@ -36,6 +36,22 @@ class Controls extends Component {
     })
   }
 
+  renderControls =() => {
+    const { audio } = this.props
+    const { isRecording, saveRecording } = audio
+    let controls
+
+    if (isRecording === true) {
+      controls = this.renderRecordingButtons()
+    } else if (isRecording === false && saveRecording === true) {
+      controls = this.renderRecordingButtons()
+    } else {
+      controls = this.renderMicrophoneButton()
+    }
+
+    return controls
+  }
+
   renderMicrophoneButton() {
     return (
       <Button
@@ -98,9 +114,7 @@ class Controls extends Component {
   }
 
   render() {
-    const { audio } = this.props
-    const { isRecording } = audio
-    const buttons = isRecording ? this.renderRecordingButtons() : this.renderMicrophoneButton()
+    const buttons = this.renderControls()
 
     return (
       <div className={styles}>

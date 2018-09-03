@@ -1,0 +1,50 @@
+:local(.styles) {
+
+  .audio-title-container {
+    position: relative;
+    top: -50px;
+    left: 30px;
+    width: 330px;
+  }
+
+  .audio-title {
+    display: block;
+    color: $white;
+    font-size: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+
+    &:first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  .edit-title-field {
+    position: relative;
+    top: -22px;
+
+    label,
+    .edit-title-input-container {
+      color: $white;
+    }
+
+    .underline {
+      &:after {
+        border-bottom-color: $white;
+      }
+    }
+
+    .edit-title-input-container {
+      font-size: 22px;
+      max-width: 205px;
+
+      input {
+        &:first-letter {
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+}

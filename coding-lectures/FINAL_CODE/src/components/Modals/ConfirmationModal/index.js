@@ -55,6 +55,7 @@ class ConfirmationModal extends Component {
       <Dialog
         onClose={this.handleCancel}
         open={open}
+        maxWidth={false}
         aria-labelledby="confirmation-dialog-title"
         title={title}
         {...other}
