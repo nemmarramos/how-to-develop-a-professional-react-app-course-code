@@ -6,7 +6,8 @@ import { MuiThemeProvider }   from '@material-ui/core/styles'
 import {
   HashRouter,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom'
 import FavoritesView            from 'containers/FavoritesView'
 import SharedView               from 'containers/SharedView'
@@ -41,6 +42,7 @@ class App extends Component {
                 <Route path="/recordings" component={RecordingsView} />
                 <Route path="/favorites" component={FavoritesView} />
                 <Route path="/shared" component={SharedView} />
+                <Redirect from="/" to="/recordings" />
               </Switch>
             </div>
           </div>

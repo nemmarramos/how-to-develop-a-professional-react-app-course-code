@@ -4,7 +4,8 @@ import theme                from 'configs/config-theme'
 import {
   HashRouter,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 import RecordView           from 'containers/RecordView'
 import DetailsView          from 'containers/DetailsView'
@@ -30,6 +31,7 @@ class App extends Component {
                 <Route path="/recordings/:id" component={DetailsView} />
                 <Route path="/favorites" component={FavoritesView} />
                 <Route path="/shared" component={SharedView} />
+                <Redirect from="/" to="/recordings" />
               </Switch>
             </div>
           </div>
