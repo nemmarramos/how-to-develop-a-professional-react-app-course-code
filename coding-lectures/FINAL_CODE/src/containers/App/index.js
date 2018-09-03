@@ -13,6 +13,7 @@ import RecordView               from 'containers/RecordView'
 import RecordingsView           from 'containers/RecordingsView'
 import DetailsView              from 'containers/DetailsView'
 import FavoritesView            from 'containers/FavoritesView'
+import SharedView               from 'containers/SharedView'
 import AccountView              from 'containers/AccountView'
 import SettingsView             from 'containers/SettingsView'
 import * as audioActionCreators from 'core/actions/actions-audio'
@@ -43,6 +44,7 @@ class App extends Component {
                 <Route path="/recordings/:id" component={DetailsView} />
                 <Route path="/recordings" component={RecordingsView} />
                 <Route path="/favorites" component={FavoritesView} />
+                <Route path="/shared" component={SharedView} />
                 <Route path="/account" component={AccountView} />
                 <Route path="/settings" component={SettingsView} />
                 <Redirect from="/" to="/recordings" />

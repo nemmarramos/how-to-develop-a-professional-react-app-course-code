@@ -24,7 +24,7 @@ class Navigation extends Component {
       case '/recordings':
         currentTab = 0
         break
-      case '/community':
+      case '/shared':
         currentTab = 1
         break
       case '/favorites':
@@ -51,7 +51,7 @@ class Navigation extends Component {
         history.push('/recordings')
         break
       case 1:
-        history.push('/community')
+        history.push('/shared')
         break
       case 2:
         history.push('/favorites')
@@ -81,7 +81,7 @@ class Navigation extends Component {
             />
             <Tab
               icon={<SharedIcon />}
-              label="Community"
+              label="Shared"
             />
             <Tab
               icon={<FavoriteIcon />}
